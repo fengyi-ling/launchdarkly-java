@@ -16,7 +16,7 @@ public class Hello {
         }
 
         LDConfig config = new LDConfig.Builder()
-                .events(Components.noEvents())
+                .events(Components.sendEvents())
                 .build();
 
         LDClient client = new LDClient(SDK_KEY, config);
