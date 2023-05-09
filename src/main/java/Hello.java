@@ -30,15 +30,21 @@ public class Hello {
 
         // Set up the evaluation context. This context should appear on your LaunchDarkly contexts
         // dashboard soon after you run the demo.
-        LDContext context = LDContext.builder("fengyi's client sdk key")
-                .name("fengyi")
-                .anonymous(false)
-                .set("user id", "2975457295719075197501_just_a_demo")
+        LDUser emptyKeyUser = new LDUser("");
+
+        // key must not null, otherwise it will be recognized as a null user, thus will always get default value(false)
+        LDContext emptyKeyContext = LDContext.builder("")
+                .name("I am a empty context")
+                .anonymous(true)
                 .build();
 
-        boolean flagValue = client.boolVariation(FEATURE_FLAG_KEY, context, false);
+        boolean flagValueForEmptyKeyUser = client.boolVariation(FEATURE_FLAG_KEY, emptyKeyUser, false);
 
-        showMessage("Feature flag '" + FEATURE_FLAG_KEY + "' is " + flagValue + " for context: " + context.getName());
+        showMessage("Feature flag '" + FEATURE_FLAG_KEY + "' is " + flagValueForEmptyKeyUser + " for user: " + emptyKeyUser.getName());
+
+        boolean flagValueForEmptyKeyContext = client.boolVariation(FEATURE_FLAG_KEY, emptyKeyContext, false);
+
+        showMessage("Feature flag '" + FEATURE_FLAG_KEY + "' is " + flagValueForEmptyKeyContext + " for context: " + emptyKeyContext.getName());
 
         // Here we ensure that the SDK shuts down cleanly and has a chance to deliver analytics
         // events to LaunchDarkly before the program exits. If analytics events are not delivered,
